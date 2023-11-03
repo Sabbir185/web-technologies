@@ -13,3 +13,22 @@ stringArr.push('md: ')
 const combinationArr: [string, number] = ['sabbir', 185];
 combinationArr[0] = 'Sabbir Ahmmed';
 combinationArr[1] = 29;
+
+
+// object
+const personInfo: {
+    firstName: string, 
+    middleName?: string,
+    lastName: string,
+    dept: string,
+    id: number,
+    isAdmin: boolean
+ } = {
+    firstName: 'Sabbir',
+    lastName: 'Ahmmed',
+    dept: 'cse',
+    id: 29,
+    isAdmin: true
+}
+
+console.log(personInfo.firstName+" "+personInfo.lastName);
