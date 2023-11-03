@@ -1,3 +1,5 @@
+{
+
 // Normal function
 // arrow function
 // object -> function -> method
@@ -34,3 +36,6 @@ const numberOfArray: number[] = [2, 4, 8];
 const newNumberOfArray: number[] = numberOfArray.map((element: number): number => element * element );
 
 console.log({newNumberOfArray});
+
+
+}
