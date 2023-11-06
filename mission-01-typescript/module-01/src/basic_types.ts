@@ -36,5 +36,8 @@
     console.log(personInfo.firstName+" "+personInfo.lastName);
     
 
+    // some other types -> null, unknown, never, void
+    // Generally error function return never type
+
 
 }
