@@ -9,8 +9,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStudentList = void 0;
+exports.studentController = void 0;
+const student_service_1 = require("./student.service");
 const getStudentList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send("OK");
 });
-exports.getStudentList = getStudentList;
+const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { student: studentData } = req.body;
+        const result = yield student_service_1.StudentServices.createStudentIntoDB(studentData);
+        return res.status(200).json({
+            error: false,
+            msg: 'Student is created successfully',
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const getAllStudents = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield student_service_1.StudentServices.getAllStudentFromDB();
+        return res.status(200).json({
+            error: false,
+            msg: 'Success',
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+const singleStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { studentId } = req.params;
+        const result = yield student_service_1.StudentServices.getSingleStudentFromDB(studentId);
+        return res.status(200).json({
+            error: false,
+            msg: 'Success',
+            data: result,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.studentController = {
+    getStudentList,
+    createStudent,
+    getAllStudents,
+    singleStudent,
+};
