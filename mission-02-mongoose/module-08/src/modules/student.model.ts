@@ -4,14 +4,26 @@ import { Student, UserName, Guardian, LocalGuardian } from "./student/student.in
 const userNameSchema = new Schema<UserName>({
     firstName: {
         type: String,
-        required: [true, "First name is required"]
+        required: [true, "First name is required"],
+        maxlength: [20, "First name can not be more than 20 characters"],
+        validate: function(value: string) {
+            const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+            return firstNameStr === value;  // if same, then return true otherwise return false
+        }
     },
     middleName: {
         type: String,
     },
     lastName: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: function(value: string) {
+                const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+                return firstNameStr === value;  // if same, then return true otherwise return false
+            },
+            message: "{VALUE} is not a capitalize format",
+        }
     },
 })
 
