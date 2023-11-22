@@ -4,7 +4,7 @@ import { Student, UserName, Guardian, LocalGuardian } from "./student/student.in
 const userNameSchema = new Schema<UserName>({
     firstName: {
         type: String,
-        required: true
+        required: [true, "First name is required"]
     },
     middleName: {
         type: String,
@@ -60,11 +60,18 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 })
 
 const studentSchema = new Schema<Student>({
-    id: { type: String },
-    name: userNameSchema,
+    id: { type: String, required: [true, "ID is required"], unique: true },
+    name: {
+        type: userNameSchema,
+        required: true
+    },
     gender: {
         type: String,
-        enum: ['male', 'female'],
+        enum: {
+            values: ['male', 'female'],
+            message: "{VALUE} is not a valid gender"
+        },
+        required: true
     },
     dateOfBirth: String,
     email: { type: String, required: true },
@@ -76,12 +83,21 @@ const studentSchema = new Schema<Student>({
     },
     presentAddress: { type: String, required: true },
     permanentAddress: { type: String, required: true },
-    guardian: guardianSchema,
-    localGuardian: localGuardianSchema,
+    guardian: {
+        type: guardianSchema,
+        required: true,
+    },
+    localGuardian: {
+        type: localGuardianSchema,
+        required: true
+    },
     profileImg: String,
     isActive: {
         type: String,
-        enum: ['active', 'blocked'],
+        enum: {
+            values: ['active', 'blocked'],
+            message: "{VALUE} is not a valid status"
+        },
         default: 'active'
     },
 });
