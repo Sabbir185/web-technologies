@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { TLocalGuardian, TStudent, TUserGuardian, TUserName } from "./student.interface";
+import { StudentModel, TLocalGuardian, TStudent, TUserGuardian, TUserName } from "./student.interface";
 
 
 const userNameSchema = new Schema<TUserName>({
@@ -73,7 +73,7 @@ const userLocalGuardianSchema = new Schema<TLocalGuardian>({
 })
 
 
-const studentSchema = new Schema<TStudent>({
+const studentSchema = new Schema<TStudent, StudentModel>({
     id: {
         type: String,
         required: [true, 'ID is required'],
@@ -154,6 +154,28 @@ studentSchema.virtual('fullName').get(function(){
     return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
 }) 
 
+// Query Middleware
+studentSchema.pre("find", function(next){
+    this.find({isDeleted: {$ne: true}});
+    next();
+});
+
+studentSchema.pre("findOne", function(next){
+    this.find({isDeleted: {$ne: true}});
+    next();
+});
+
+studentSchema.pre("aggregate", function(next){
+    this.pipeline().unshift({$match: {isDeleted: {$ne: true}}});
+    next();
+})
+
+// custom static method
+studentSchema.statics.isUserExists = async function (id: string) {
+    const existingUser = await Student.findOne({id});
+    return existingUser;
+}
 
 
-export const Student = model<TStudent>("Student", studentSchema)
+
+export const Student = model<TStudent, StudentModel>("Student", studentSchema)
