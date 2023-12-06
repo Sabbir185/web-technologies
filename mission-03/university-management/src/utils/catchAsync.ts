@@ -7,6 +7,7 @@ export const catchAsync = (fn: RequestHandler) => {
 }
 
 // HOF -> Higher Order Function
+// HOF -> A function that takes a function, do some tasks and return a function
 // function(fn) calling
 // pass function parameters
 // collect those parameters from HOF

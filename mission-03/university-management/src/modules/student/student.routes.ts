@@ -8,5 +8,3 @@ router.get('/', studentController.getAllStudents);
 router.delete('/:studentId', studentController.deleteStudent);
 
 export const StudentRoutes = router;
-
-
