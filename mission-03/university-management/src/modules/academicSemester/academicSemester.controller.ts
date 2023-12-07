@@ -1,19 +1,17 @@
 import { RequestHandler } from "express";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import { UserServices } from "../user/user.service";
+import {academicSemesterServices} from "./academicSemester.service";
 
 
 const createAcademicSemester: RequestHandler = async (req, res, next) => {
     try {
-        const { password, student: studentData } = req.body;
-        const newStudent = await UserServices.createStudentIntoDB(password, studentData)
-
+        const result = await academicSemesterServices.createAcademicSemesterIntoDB(req.body);
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
             message: 'Student is created successfully',
-            data: newStudent
+            data: result
         })
     } catch (error) {
         next(error)
