@@ -9,7 +9,8 @@ export const findLastStudentId = async () => {
         .lean()
 
     // 202301 0001
-    return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+    // return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+    return lastStudent?.id ? lastStudent.id : undefined;
 }
 
 // each semester id will be regenerated from 0001
