@@ -2,6 +2,7 @@
 import mongoose from "mongoose";
 import {TAcademicDepartment} from "./academicDepartment.interface";
 import {AcademicDepartment} from "./academicDepartment.model";
+import AppError from "../../errors/AppError";
 
 const createAcademicDepartmentInfoDB = async (payload: TAcademicDepartment) => {
     const newDepartment = await AcademicDepartment.create(payload)
@@ -16,7 +17,7 @@ const getAllAcademicDepartmentFromDB = async () => {
 const getSingleAcademicDepartmentFromDB = async (departmentId: string) => {
     const faculty = await AcademicDepartment.findById(departmentId).populate('academicFaculty');
     if(!faculty) {
-        throw new Error("Department not found !")
+        throw new AppError(404, "Department not found !")
     }
     return faculty;
 }
