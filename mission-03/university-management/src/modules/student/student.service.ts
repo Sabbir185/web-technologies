@@ -1,4 +1,8 @@
 import {Student} from "./student.model"
+import mongoose from "mongoose";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
+import {User} from "../user/user.mode";
 
 
 const getSingleStudentFromDB = async (id: string) => {
@@ -50,8 +54,24 @@ const getAllStudentsFromDB = async () => {
 }
 
 const deleteStudentFromDB = async (id: string) => {
-    const result = await Student.updateOne({id}, {isDeleted: true});
-    return result;
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try{
+        const student = await Student.findOneAndUpdate({id}, {isDeleted: true}, {new: true, session});
+        if(!student) {
+            throw new AppError(httpStatus.BAD_REQUEST, 'Student to delete student !');
+        }
+        const user = await User.findOneAndUpdate({id}, {isDeleted: true}, {session});
+        if(!user) {
+            throw new AppError(httpStatus.BAD_REQUEST, 'Student to delete student !');
+        }
+        await session.commitTransaction();
+        await session.endSession()
+        return student;
+    } catch (err) {
+        await session.abortTransaction();
+        await session.endSession()
+    }
 }
 
 
