@@ -9,12 +9,12 @@ const createAcademicDepartmentInfoDB = async (payload: TAcademicDepartment) => {
 }
 
 const getAllAcademicDepartmentFromDB = async () => {
-    const faculties = await AcademicDepartment.find({})
+    const faculties = await AcademicDepartment.find({}).populate('academicFaculty')
     return faculties;
 }
 
 const getSingleAcademicDepartmentFromDB = async (departmentId: string) => {
-    const faculty = await AcademicDepartment.findById(departmentId);
+    const faculty = await AcademicDepartment.findById(departmentId).populate('academicFaculty');
     if(!faculty) {
         throw new Error("Department not found !")
     }
