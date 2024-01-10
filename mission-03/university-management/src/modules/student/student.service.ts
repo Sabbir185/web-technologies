@@ -58,7 +58,7 @@ const getAllStudentsFromDB_ByRowCoding = async (query: Record<string, unknown>) 
     let limit = 1;
     let skip = 0;
     if (query?.limit) {
-        page = Number(query?.limt);
+        limit = Number(query?.limit);
     }
     if (query?.page) {
         page = Number(query?.page);
