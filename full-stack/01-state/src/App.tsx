@@ -1,11 +1,14 @@
-import UserInformationReducer from "./components/UserInformationReducer"
+import TodoForm from "./components/todo/TodoForm"
+import TodoList from "./components/todo/TodoList"
+import TodoProvider from "./context/TodoProvider"
 
 
 function App() {
   return (
-    <>
-      <UserInformationReducer />
-    </>
+    <TodoProvider>
+      <TodoForm />
+      <TodoList />
+    </TodoProvider>
   )
 }
 
